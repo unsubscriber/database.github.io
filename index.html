@@ -1,0 +1,66 @@
+
+<script type="text/javascript">
+function validateBFTProUser(frm, requireName) {
+	requireName = requireName || false;
+	
+	if(requireName && frm.bftpro_name.value=="") {
+		alert("Please provide name");
+		frm.bftpro_name.focus();
+		return false;
+	}
+	
+	if(frm.email.value=="" || frm.email.value.indexOf("@")<1 || frm.email.value.indexOf(".")<1) {
+		alert("Please provide a valid email address");
+		frm.email.focus();
+		return false;
+	}
+	
+	// check custom fields
+	var req_cnt = frm.elements["required_fields[]"].length; // there's always at least 1
+	if(req_cnt > 1) {
+		for(i = 0; i<req_cnt; i++) {
+			var fieldName = frm.elements["required_fields[]"][i].value;
+			if(fieldName !='') {
+				var isFilled = false;
+				// ignore radios
+				if(frm.elements[fieldName].type == 'radio') continue;
+				
+				// checkbox
+				if(frm.elements[fieldName].type == 'checkbox' && !frm.elements[fieldName].checked) {
+					alert("This field is required");
+					frm.elements[fieldName].focus();
+					return false;
+				}		
+				
+				// all other fields
+				if(frm.elements[fieldName].value=="") {
+					alert("This field is required");
+					frm.elements[fieldName].focus();
+					return false;
+				}
+			}
+		}
+	}
+		
+	return true;
+}
+</script>
+
+<br><br><center><h3>We are sorry to see you go! To Unsubscribe just enter your email and hit the button below.</h3></center><br><br><br><br><center><form method="post" class="bftpro-front-form" onsubmit="return validateBFTProUser(this,false);" action="http://subscriber.co.nf/">
+
+	<div><label>*Your Email:</label> <input type="text" name="email"></div>		
+<br><br>	
+			
+		
+		
+		
+	
+	<div class="bftpro-front-signup-button">
+					<input type="submit" value="Unsubscribe">
+				
+	</div>
+	<input type="hidden" name="bftpro_subscribe" value="1">
+			<input type="hidden" name="list_id" value="17">
+		
+	<input type="hidden" name="required_fields[]" value="">
+</form></center>
